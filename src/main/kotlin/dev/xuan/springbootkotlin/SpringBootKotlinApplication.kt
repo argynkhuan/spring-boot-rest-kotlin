@@ -1,5 +1,6 @@
 package dev.xuan.springbootkotlin
 
+import dev.xuan.springbootkotlin.domain.Person
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.web.bind.annotation.GetMapping
@@ -10,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController
 class SpringBootKotlinApplication {
 
 	@GetMapping
-	fun index(): String  {
-		return "Hello !"
+	fun index(): Person  {
+		return Person(name = "Argyn", lastName = "Khuan")
 	}
 }
 
