@@ -14,6 +14,7 @@ class SpringBootKotlinApplication {
 	fun index(): Person  {
 		return Person(name = "Argyn", lastName = "Khuan")
 	}
+
 }
 
 fun main(args: Array<String>) {
