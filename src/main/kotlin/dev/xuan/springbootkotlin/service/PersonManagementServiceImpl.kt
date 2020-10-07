@@ -4,12 +4,13 @@ import dev.xuan.springbootkotlin.dao.PersonDao
 import dev.xuan.springbootkotlin.dto.AddPersonRequest
 import dev.xuan.springbootkotlin.dto.PersonResponse
 import dev.xuan.springbootkotlin.dto.UpdatePersonRequest
-import org.springframework.beans.factory.annotation.Autowired
+import dev.xuan.springbootkotlin.transformer.AddPersonRequestTransformer
 import org.springframework.stereotype.Service
 
 
 @Service
-class PersonManagementServiceImpl(private val personDao: PersonDao) : PersonManagementService {
+class PersonManagementServiceImpl(private val personDao: PersonDao,
+                                  private val addPersonRequestTransformer: AddPersonRequestTransformer) : PersonManagementService {
     override fun findById(id: Long): PersonResponse? {
         TODO("Not yet implemented")
     }
