@@ -1,2 +1,23 @@
+spring:
+  output:
+    ansi:
+      enabled: ALWAYS
+  datasource:
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:PERSONS}
+    username: admin
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: 'create-drop'
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
 server:
   port: 8082
