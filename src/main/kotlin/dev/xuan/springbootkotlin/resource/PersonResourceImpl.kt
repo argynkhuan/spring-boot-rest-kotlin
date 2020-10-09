@@ -3,27 +3,43 @@ package dev.xuan.springbootkotlin.resource
 import dev.xuan.springbootkotlin.dto.AddPersonRequest
 import dev.xuan.springbootkotlin.dto.PersonResponse
 import dev.xuan.springbootkotlin.dto.UpdatePersonRequest
+import dev.xuan.springbootkotlin.resource.PersonResourceImpl.Companion.BASE_PERSON_URL
+import dev.xuan.springbootkotlin.service.PersonManagementService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import java.net.URI
 
-class PersonResourceImpl : PersonResource {
-    override fun findById(id: Long): ResponseEntity<PersonResponse?> {
-        TODO("Not yet implemented")
+@RestController
+@RequestMapping(value = [BASE_PERSON_URL])
+class PersonResourceImpl(private val personManagementService: PersonManagementService) : PersonResource {
+
+    @GetMapping("/{id}")
+    override fun findById(@PathVariable id: Long): ResponseEntity<PersonResponse?> {
+        val personResponse = this.personManagementService.findById(id)
+        return ResponseEntity.status(HttpStatus.OK).body(personResponse)
     }
 
-    override fun findAll(): ResponseEntity<List<PersonResponse>> {
-        TODO("Not yet implemented")
+    @GetMapping("")
+    override fun findAll(): ResponseEntity<List<PersonResponse>> = ResponseEntity.ok(this.personManagementService.findAll())
+
+    @PostMapping
+    override fun save(@RequestBody addPersonRequest: AddPersonRequest): ResponseEntity<PersonResponse> {
+        val personResponse = this.personManagementService.save(addPersonRequest)
+        return ResponseEntity
+                .created(URI.create(BASE_PERSON_URL.plus("/${personResponse.id}")))
+                .body(personResponse)
     }
 
-    override fun save(addPersonRequest: AddPersonRequest): ResponseEntity<PersonResponse> {
-        TODO("Not yet implemented")
+    @PutMapping
+    override fun update(@RequestBody updatePersonRequest: UpdatePersonRequest): ResponseEntity<PersonResponse> {
+        return ResponseEntity.ok(this.personManagementService.update(updatePersonRequest))
     }
 
-    override fun update(updatePersonRequest: UpdatePersonRequest): ResponseEntity<PersonResponse> {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteById(id: Long): ResponseEntity<Unit> {
-        TODO("Not yet implemented")
+    @DeleteMapping("/{id}")
+    override fun deleteById(@PathVariable id: Long): ResponseEntity<Unit> {
+        this.personManagementService.deleteById(id)
+        return ResponseEntity.noContent().build()
     }
 
     companion object {
